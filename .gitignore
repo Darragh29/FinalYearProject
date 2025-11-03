@@ -157,3 +157,14 @@ cython_debug/
 # Docker
 .docker/
 docker-compose.override.yml
+
+
+#Files
+media
+
+# Local environment files
+*.env
+.env/
+
+# System junk
+.DS_Store

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>Detection Result</h1>
+
+    <!-- Result Image -->
+    {% if image_base64 %}
+        <img src="data:image/jpeg;base64,{{ image_base64 }}" class="img-fluid rounded border mb-3" width="400">
+    {% endif %}
+
+    <h3 class="mb-3">Result: {{ result }}</h3>
+
+    <!-- Album and Artist -->
+    {% if album and artist %}
+        <p><strong>Album:</strong> {{ album }}</p>
+        <p><strong>Artist:</strong> {{ artist }}</p>
+        <!-- Add to Collection Form -->
+        <form action="{% url 'add_to_collection' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="album" value="{{ album }}">
+            <input type="hidden" name="artist" value="{{ artist }}">
+            <input type="hidden" name="image_base64" value="{{ image_base64 }}">
+            <button type="submit" class="btn btn-success">Add to Collection</button>
+        </form>
+    {% endif %}
+    
+    <!-- View My Collection Button -->
+    <a href="{% url 'catalogue' %}" class="btn btn-outline-primary mt-3">View My Collection</a>
+</div>
+{% endblock %}

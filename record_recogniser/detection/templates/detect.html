@@ -1,19 +1,37 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5 text-center">
-    <h1 class="mb-4">Upload an Image</h1>
+    <h1 class="mb-4">Upload or Capture an Image</h1>
 
-    <form action="{% url 'detect_object' %}" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+    <!-- Detection Form -->
+    <form id="imageForm" action="{% url 'detect_object' %}" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
         {% csrf_token %}
-        <input type="file" name="image" accept="image/*" class="form-control w-50 mb-3">
-        <button type="submit" class="btn btn-primary">Detect</button>
-    </form>
 
-    {% if result %}
-        <div class="mt-4 alert alert-info">
-            <h2>Detection Result: {{ result }}</h2>
+        <!-- Upload File Option -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload an image</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <img id="uploadedPreview" class="mt-3 border rounded" style="max-width: 400px; display: none;" />
         </div>
-    {% endif %}
+
+        <p id="orText">OR</p>
+
+        <!-- Camera Live Feed and Capture -->
+        <video id="video" width="400" height="300" autoplay class="mb-3 rounded border"></video>
+        <button type="button" id="captureBtn" class="btn btn-outline-primary mb-3">Capture</button>
+
+        <canvas id="canvas" width="400" height="300" class="border rounded mb-3" style="display: none;"></canvas>
+
+        <!-- Hidden Input to Hold Captured Image -->
+        <input type="hidden" name="captured_image" id="capturedImageInput">
+
+        <button type="submit" class="btn btn-primary mt-3">Detect</button>
+    </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'detection/js/camera.js' %}"></script>
 {% endblock %}

@@ -17,15 +17,21 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from detection.views import detect_object, detect, home
+from detection.views import detect_object, detect, home, add_to_collection, catalogue
 from django.conf import settings
 from django.conf.urls.static import static
 
+app_name = 'detection'
+
+#Define URL patterns
 urlpatterns = [
     path("admin/", admin.site.urls),
+path('', home, name='default_home'),
     path('home/', home, name='home'),
     path('detect/', detect, name='detect'),
-    path('detect/recognition/', detect_object, name='recognition'),
+    path('detect/recognition/', detect_object, name='detect_object'),
+    path('catalogue/', catalogue, name='catalogue'),
+    path('add_to_collection/', add_to_collection, name='add_to_collection'),
 ]
 
 #Serve media files in development mode
